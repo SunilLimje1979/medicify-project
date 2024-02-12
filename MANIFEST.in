@@ -1,0 +1,4 @@
+include LICENSE
+include README.rst
+recursive-include dmedicify_project/static *
+recursive-include medicify_project/templates *
