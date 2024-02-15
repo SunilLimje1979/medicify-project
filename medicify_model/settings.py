@@ -133,12 +133,12 @@ USE_TZ = True
 
 STATIC_URL = '/medicify-project/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "medicify-project/static",
+    BASE_DIR / "medicify-project/static"
 ]
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
