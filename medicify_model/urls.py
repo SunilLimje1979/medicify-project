@@ -20,6 +20,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('medicify_project/', include("medicify_project.urls")),
+    path('medicify-project/admin/', admin.site.urls),
+    path('medicify-project/medicify_project/', include("medicify_project.urls")),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
