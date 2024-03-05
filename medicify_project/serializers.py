@@ -152,6 +152,8 @@ class TblpatientFindingsandsymtomsSerializer(serializers.ModelSerializer):
             'consultation_id',
             'findings',
             'symtoms',
+            'kco',
+            'advice',
             'isdeleted',
         ]
 
@@ -169,3 +171,42 @@ class TblpatientComplaintsSerializer(serializers.ModelSerializer):
             'isdeleted',
         ]
 
+class LabInvestigationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblpatientLabinvestigations
+        fields = '__all__'
+
+
+class ConsultationFeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConsultationFee
+        fields = '__all__'
+
+class MedicalServicesFeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MedicalServicesFee
+        fields = '__all__'
+
+
+
+class TbllabinvestigationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tbllabinvestigations
+        fields = '__all__'
+
+class tblChatScriptsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblChatScripts
+        fields = '__all__'
+
+class tblScriptOptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblScriptOptions
+        fields = '__all__'
+
+class tblUserActionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblUserActions
+        fields = '__all__'
+
+        

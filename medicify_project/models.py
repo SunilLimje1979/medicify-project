@@ -122,428 +122,547 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class Tblconsultations(models.Model):
-    consultation_id = models.AutoField(db_column='Consultation_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    patient_status = models.SmallIntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    consultation_datetime = models.IntegerField(db_column='Consultation_DateTime')  # Field name made lowercase.
-    consultation_mode = models.SmallIntegerField(db_column='Consultation_Mode')  # Field name made lowercase.
-    visit_reason = models.CharField(db_column='Visit_Reason', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    consultation_duration = models.IntegerField(db_column='Consultation_Duration', blank=True, null=True)  # Field name made lowercase.
-    further_assited = models.IntegerField(db_column='Further_Assited')  # Field name made lowercase.
-    followup_datetime = models.IntegerField(db_column='Followup_DateTime', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.CharField(db_column='Deleted_Reason', max_length=100, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tblconsultations'
-
-
 class Tbldatacodemaster(models.Model):
-    datacodeid = models.AutoField(db_column='DataCodeId', primary_key=True)  # Field name made lowercase.
-    datacodename = models.CharField(db_column='DataCodeName', max_length=20)  # Field name made lowercase.
-    datacodevalue = models.CharField(db_column='DataCodeValue', max_length=5)  # Field name made lowercase.
-    datacodedescription = models.TextField(db_column='DataCodeDescription')  # Field name made lowercase.
+    datacodeid = models.AutoField( primary_key=True)  # Field name made lowercase.
+    datacodename = models.CharField( max_length=256)  # Field name made lowercase.
+    datacodevalue = models.CharField( max_length=256)  # Field name made lowercase.
+    datacodedescription = models.TextField()  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'tbldatacodemaster'
 
-
-class TbldoctorMedicines(models.Model):
-    doctor_medicine_id = models.AutoField(db_column='Doctor_Medicine_Id', primary_key=True)  # Field name made lowercase.
-    medicine_code = models.CharField(db_column='Medicine_Code', max_length=5)  # Field name made lowercase.
-    medicine_name = models.CharField(db_column='Medicine_Name', max_length=100)  # Field name made lowercase.
-    medicine_form = models.SmallIntegerField(db_column='Medicine_Form')  # Field name made lowercase.
-    medicine_frequency = models.CharField(db_column='Medicine_Frequency', max_length=3)  # Field name made lowercase.
-    medicine_duration = models.IntegerField(db_column='Medicine_Duration')  # Field name made lowercase.
-    medicine_dosages = models.IntegerField(db_column='Medicine_Dosages')  # Field name made lowercase.
-    medicine_manufacture = models.CharField(db_column='Medicine_Manufacture', max_length=100)  # Field name made lowercase.
-    medicine_packsize = models.IntegerField(db_column='Medicine_PackSize')  # Field name made lowercase.
-    medicine_preservation = models.IntegerField(db_column='Medicine_Preservation')  # Field name made lowercase.
-    medicine_minstock = models.IntegerField(db_column='Medicine_MinStock')  # Field name made lowercase.
-    medicine_gst = models.IntegerField(db_column='Medicine_GST')  # Field name made lowercase.
-    medicine_content_name = models.CharField(db_column='Medicine_Content_Name', max_length=100)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deletedreason = models.CharField(db_column='DeletedReason', max_length=100, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tbldoctor_medicines'
-
-
-class Tbldoctorappointments(models.Model):
-    appointment_id = models.AutoField(db_column='Appointment_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    appointment_datetime = models.BigIntegerField(db_column='Appointment_DateTime')  # Field name made lowercase.
-    appointment_token = models.IntegerField(db_column='Appointment_Token')  # Field name made lowercase.
-    appointment_name = models.CharField(db_column='Appointment_Name', max_length=100)  # Field name made lowercase.
-    appointment_mobileno = models.CharField(db_column='Appointment_MobileNo', max_length=10)  # Field name made lowercase.
-    appointment_gender = models.IntegerField(db_column='Appointment_Gender')  # Field name made lowercase.
-    appointment_status = models.IntegerField(db_column='Appointment_Status')  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tbldoctorappointments'
-
-
-class Tbldoctorlocationavailability(models.Model):
-    doctor_location_availability_id = models.AutoField(db_column='Doctor_Location_Availability_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    doctor_location_id = models.IntegerField(db_column='Doctor_Location_Id')  # Field name made lowercase.
-    availability_day = models.SmallIntegerField(db_column='Availability_Day')  # Field name made lowercase.
-    availability_starttime = models.CharField(db_column='Availability_StartTime', max_length=8)  # Field name made lowercase.
-    availability_endtime = models.IntegerField(db_column='Availability_EndTime')  # Field name made lowercase.
-    availability_status = models.IntegerField(db_column='Availability_Status')  # Field name made lowercase.
-    availability_order = models.IntegerField(db_column='Availability_Order')  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deletedreason = models.IntegerField(db_column='DeletedReason', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tbldoctorlocationavailability'
-
-
-class Tbldoctorlocations(models.Model):
-    doctor_location_id = models.AutoField(db_column='Doctor_Location_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    location_title = models.CharField(db_column='Location_Title', max_length=100)  # Field name made lowercase.
-    location_type = models.IntegerField(db_column='Location_Type')  # Field name made lowercase.
-    location_address = models.CharField(db_column='Location_Address', max_length=255)  # Field name made lowercase.
-    location_latitute = models.CharField(db_column='Location_Latitute', max_length=15, blank=True, null=True)  # Field name made lowercase.
-    location_longitute = models.CharField(db_column='Location_Longitute', max_length=15, blank=True, null=True)  # Field name made lowercase.
-    location_city_id = models.IntegerField(db_column='Location_City_Id')  # Field name made lowercase.
-    location_state_id = models.IntegerField(db_column='Location_State_Id')  # Field name made lowercase.
-    location_country_id = models.IntegerField(db_column='Location_Country_Id')  # Field name made lowercase.
-    location_pincode = models.CharField(db_column='Location_Pincode', max_length=6)  # Field name made lowercase.
-    location_status = models.IntegerField(db_column='Location_Status')  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deletedreason = models.CharField(db_column='DeletedReason', max_length=200, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tbldoctorlocations'
-
-
+######################################Tbldoctors
 class Tbldoctors(models.Model):
-    doctor_id = models.AutoField(db_column='Doctor_Id', primary_key=True)  # Field name made lowercase.
-    doctor_firstname = models.CharField(db_column='Doctor_Firstname', max_length=50)  # Field name made lowercase.
-    doctor_lastname = models.CharField(db_column='Doctor_Lastname', max_length=50)  # Field name made lowercase.
-    doctor_mobileno = models.CharField(db_column='Doctor_MobileNo', max_length=10)  # Field name made lowercase.
-    doctor_email = models.CharField(db_column='Doctor_Email', max_length=100)  # Field name made lowercase.
-    doctor_dateofbirth = models.IntegerField(db_column='Doctor_DateofBirth', blank=True, null=True)  # Field name made lowercase.
-    doctor_maritalstatus = models.IntegerField(db_column='Doctor_MaritalStatus')  # Field name made lowercase.
-    doctor_gender = models.SmallIntegerField(db_column='Doctor_Gender')  # Field name made lowercase.
-    doctor_aadharnumber = models.CharField(db_column='Doctor_AadharNumber', max_length=16)  # Field name made lowercase.
-    doctor_address = models.CharField(db_column='Doctor_Address', max_length=1000, blank=True, null=True)  # Field name made lowercase.
-    doctor_cityid = models.IntegerField(db_column='Doctor_CityId', blank=True, null=True)  # Field name made lowercase.
-    doctor_stateid = models.IntegerField(db_column='Doctor_StateId', blank=True, null=True)  # Field name made lowercase.
-    doctor_countryid = models.IntegerField(db_column='Doctor_CountryId', blank=True, null=True)  # Field name made lowercase.
-    doctor_pincode = models.CharField(db_column='Doctor_Pincode', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    doctor_registrationno = models.CharField(db_column='Doctor_RegistrationNo', max_length=50)  # Field name made lowercase.
-    doctor_profilleimageurl = models.IntegerField(db_column='Doctor_ProfilleImageURL', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    isactive = models.IntegerField(db_column='IsActive')  # Field name made lowercase.
+    doctor_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_firstname = models.CharField( max_length=50)  # Field name made lowercase.
+    doctor_lastname = models.CharField( max_length=50)  # Field name made lowercase.
+    doctor_mobileno = models.CharField( max_length=10)  # Field name made lowercase.
+    doctor_email = models.CharField( max_length=100)  # Field name made lowercase.
+    doctor_dateofbirth = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
+    doctor_maritalstatus = models.IntegerField()  # Field name made lowercase.
+    doctor_gender = models.SmallIntegerField()  # Field name made lowercase.
+    doctor_aadharnumber = models.CharField( max_length=16)  # Field name made lowercase.
+    doctor_address = models.CharField( max_length=1000, blank=True, null=True)  # Field name made lowercase.
+    doctor_cityid = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    doctor_stateid = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    doctor_countryid = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    doctor_pincode = models.CharField( max_length=6, blank=True, null=True)  # Field name made lowercase.
+    doctor_registrationno = models.CharField(max_length=50)  # Field name made lowercase.
+    doctor_profilleimageurl = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isactive = models.IntegerField()  # Field name made lowercase.
+    doctor_login_token = models.CharField( max_length=32, blank=True, null=True) 
 
     class Meta:
-        managed = False
         db_table = 'tbldoctors'
 
 
-class TblmedicineInstructions(models.Model):
-    doctor_instruction_id = models.AutoField(db_column='Doctor_Instruction_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    instruction_language = models.CharField(db_column='Instruction_Language', max_length=2)  # Field name made lowercase.
-    instruction_text = models.CharField(db_column='Instruction_Text', max_length=100, db_collation='utf8mb4_unicode_ci')  # Field name made lowercase.
+#####################################################Tblpatients
+class Tblpatients(models.Model):
+    patient_id = models.AutoField(primary_key=True)  # Field name made lowercase.
+    patient_mobileno = models.CharField( max_length=10)  # Field name made lowercase.
+    patient_firstname = models.CharField( max_length=50)  # Field name made lowercase.
+    patient_fateherhusbandname = models.CharField( max_length=50, blank=True, null=True)  # Field name made lowercase.
+    patient_lastname = models.CharField( max_length=50)  # Field name made lowercase.
+    patient_gender = models.SmallIntegerField()  # Field name made lowercase.
+    patient_dateofbirth = models.BigIntegerField( blank=True, null=True)  # Field name made lowercase.
+    patient_maritalstatus = models.IntegerField()  # Field name made lowercase.
+    patient_aadharnumber = models.CharField( max_length=16, blank=True, null=True)  # Field name made lowercase.
+    patient_universalhealthid = models.IntegerField()  # Field name made lowercase.
+    patient_bloodgroup = models.IntegerField()  # Field name made lowercase.
+    patient_level = models.CharField( max_length=1)  # Field name made lowercase.
+    patient_emergencycontact = models.CharField( max_length=10)  # Field name made lowercase.
+    patient_address = models.CharField( max_length=100, blank=True, null=True)  # Field name made lowercase.
+    patient_cityid = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    patient_stateid = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    patient_countryid = models.IntegerField()  # Field name made lowercase.
+    createdby = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
+    createdon = models.BigIntegerField(blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    istestpatient = models.IntegerField()  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        db_table = 'tblpatients'
+#######################################################Tblconsultations
+class Tblconsultations(models.Model):
+    consultation_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors,on_delete=models.SET_NULL, null=True) # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients,on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_status = models.SmallIntegerField()  # Field name made lowercase.
+    consultation_datetime = models.IntegerField()  # Field name made lowercase.
+    consultation_mode = models.SmallIntegerField()  # Field name made lowercase.
+    visit_reason = models.CharField( max_length=255, blank=True, null=True)  # Field name made lowercase.
+    consultation_duration = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    further_assited = models.IntegerField()  # Field name made lowercase.
+    followup_datetime = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deleted_reason = models.CharField( max_length=100, blank=True, null=True)  # Field name made lowercase.
+    instructions = models.TextField(blank=True, null=True)
+    consultation_fees = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    referred_to_doctor = models.CharField( max_length=255, blank=True, null=True)
+    referred_by_doctor = models.CharField( max_length=255, blank=True, null=True)
+
+
+    class Meta:
+        db_table = 'tblconsultations'
+
+
+############################################################TbldoctorMedicines
+class TbldoctorMedicines(models.Model):
+    doctor_medicine_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    medicine_code = models.CharField( max_length=5)  # Field name made lowercase.
+    medicine_name = models.CharField( max_length=100)  # Field name made lowercase.
+    medicine_form = models.SmallIntegerField()  # Field name made lowercase.
+    medicine_frequency = models.CharField( max_length=3)  # Field name made lowercase.
+    medicine_duration = models.IntegerField()  # Field name made lowercase.
+    medicine_dosages = models.CharField( max_length=100)  # Field name made lowercase.
+    medicine_manufacture = models.CharField( max_length=100)  # Field name made lowercase.
+    medicine_packsize = models.IntegerField()  # Field name made lowercase.
+    medicine_preservation = models.IntegerField()  # Field name made lowercase.
+    medicine_minstock = models.IntegerField()  # Field name made lowercase.
+    medicine_gst = models.IntegerField()  # Field name made lowercase.
+    medicine_content_name = models.CharField(max_length=100)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deletedreason = models.CharField( max_length=100, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        db_table = 'tbldoctor_medicines'
+
+############################################Tbllabinvestigations
+class Tbllabinvestigations(models.Model):
+    investigation_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors,on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    investigation_category = models.CharField( max_length=255)  # Field name made lowercase.
+    investigation_name = models.CharField( max_length=255)
+    
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        db_table = 'Tbllabinvestigations'
+
+
+############################################Tbldoctorappointments
+class Tbldoctorappointments(models.Model):
+    appointment_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors,on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    appointment_datetime = models.BigIntegerField()  # Field name made lowercase.
+    appointment_token = models.IntegerField()  # Field name made lowercase.
+    appointment_name = models.CharField( max_length=100)  # Field name made lowercase.
+    appointment_mobileno = models.CharField( max_length=10)  # Field name made lowercase.
+    appointment_gender = models.IntegerField()  # Field name made lowercase.
+    appointment_status = models.IntegerField()  # Field name made lowercase.
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    age = models.IntegerField( blank=True, null=True)
+
+    class Meta:
+        db_table = 'tbldoctorappointments'
+
+###############################################Tbldoctorlocationavailability
+class Tbldoctorlocationavailability(models.Model):
+    doctor_location_availability_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True) # Field name made lowercase.
+    doctor_location_id = models.IntegerField()  # Field name made lowercase.
+    availability_day = models.SmallIntegerField()  # Field name made lowercase.
+    availability_starttime = models.CharField( max_length=8)  # Field name made lowercase.
+    availability_endtime = models.IntegerField()  # Field name made lowercase.
+    availability_status = models.IntegerField()  # Field name made lowercase.
+    availability_order = models.IntegerField()  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deletedreason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        db_table = 'tbldoctorlocationavailability'
+
+##########################################Tbldoctorlocations
+class Tbldoctorlocations(models.Model):
+    doctor_location_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    location_title = models.CharField(max_length=100)  # Field name made lowercase.
+    location_type = models.IntegerField()  # Field name made lowercase.
+    location_address = models.CharField(max_length=255)  # Field name made lowercase.
+    location_latitute = models.CharField( max_length=15, blank=True, null=True)  # Field name made lowercase.
+    location_longitute = models.CharField( max_length=15, blank=True, null=True)  # Field name made lowercase.
+    location_city_id = models.IntegerField()  # Field name made lowercase.
+    location_state_id = models.IntegerField()  # Field name made lowercase.
+    location_country_id = models.IntegerField()  # Field name made lowercase.
+    location_pincode = models.CharField( max_length=6)  # Field name made lowercase.
+    location_status = models.IntegerField()  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deletedreason = models.CharField( max_length=200, blank=True, null=True)  # Field name made lowercase.
+    location_token = models.CharField(max_length=32,blank=True,null=True,unique=True)
+    location_qr_url = models.CharField( max_length=255, blank=True, null=True)
+    class Meta:
+        db_table = 'tbldoctorlocations'
+
+###################################################TblmedicineInstructions
+class TblmedicineInstructions(models.Model):
+    doctor_instruction_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    instruction_language = models.CharField( max_length=2)  # Field name made lowercase.
+    instruction_text = models.CharField( max_length=100)  # Field name made lowercase.
+
+    class Meta:
         db_table = 'tblmedicine_instructions'
 
-
+##############################################TblpateintCharges
 class TblpateintCharges(models.Model):
-    pateint_charges_id = models.AutoField(db_column='Pateint_Charges_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    patient_status = models.IntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    charges_referencetype = models.IntegerField(db_column='Charges_ReferenceType')  # Field name made lowercase.
-    charges_reference_id = models.IntegerField(db_column='Charges_Reference_Id')  # Field name made lowercase.
-    charges_type = models.IntegerField(db_column='Charges_Type')  # Field name made lowercase.
-    charges_category = models.IntegerField(db_column='Charges_Category')  # Field name made lowercase.
-    charges_notes = models.CharField(db_column='Charges_Notes', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    charges_units = models.IntegerField(db_column='Charges_Units')  # Field name made lowercase.
-    charges_rate = models.IntegerField(db_column='Charges_Rate')  # Field name made lowercase.
-    charges_amount = models.IntegerField(db_column='Charges_Amount')  # Field name made lowercase.
-    charges_discount = models.IntegerField(db_column='Charges_Discount', blank=True, null=True)  # Field name made lowercase.
-    charges_discount_reason = models.IntegerField(db_column='Charges_Discount_Reason', blank=True, null=True)  # Field name made lowercase.
-    charges_discountby = models.CharField(db_column='Charges_DiscountBy', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.IntegerField(db_column='Deleted_Reason', blank=True, null=True)  # Field name made lowercase.
+    pateint_charges_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_status = models.IntegerField()  # Field name made lowercase.
+    charges_referencetype = models.IntegerField()  # Field name made lowercase.
+    charges_reference_id = models.IntegerField()  # Field name made lowercase.
+    charges_type = models.IntegerField()  # Field name made lowercase.
+    charges_category = models.IntegerField()  # Field name made lowercase.
+    charges_notes = models.CharField( max_length=100, blank=True, null=True)  # Field name made lowercase.
+    charges_units = models.IntegerField()  # Field name made lowercase.
+    charges_rate = models.IntegerField()  # Field name made lowercase.
+    charges_amount = models.IntegerField()  # Field name made lowercase.
+    charges_discount = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    charges_discount_reason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    charges_discountby = models.CharField( max_length=50, blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deleted_reason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'tblpateint_charges'
 
-
+################################################TblpatientComplaints
 class TblpatientComplaints(models.Model):
-    patient_complaint_id = models.AutoField(db_column='Patient_Complaint_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    complaint_datetime = models.IntegerField(db_column='Complaint_DateTime')  # Field name made lowercase.
-    complaint_details = models.TextField(db_column='Complaint_Details')  # Field name made lowercase.
-    appointment_id = models.IntegerField(db_column='Appointment_Id', blank=True, null=True)  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.IntegerField(db_column='Deleted_Reason', blank=True, null=True)  # Field name made lowercase.
+    patient_complaint_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    complaint_datetime = models.IntegerField()  # Field name made lowercase.
+    complaint_details = models.TextField()  # Field name made lowercase.
+    appointment_id = models.ForeignKey(Tbldoctorappointments, on_delete=models.SET_NULL, null=True) 
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deleted_reason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'tblpatient_complaints'
 
-
+##################################################TblpatientFindingsandsymtoms
 class TblpatientFindingsandsymtoms(models.Model):
-    patient_findings_id = models.AutoField(db_column='Patient_Findings_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    patient_status = models.SmallIntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    findgings_datetime = models.IntegerField(db_column='Findgings_DateTime')  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id', blank=True, null=True)  # Field name made lowercase.
-    findings = models.TextField(db_column='Findings')  # Field name made lowercase.
-    symtoms = models.TextField(db_column='Symtoms')  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.CharField(db_column='Deleted_Reason', max_length=100)  # Field name made lowercase.
+    patient_findings_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_status = models.SmallIntegerField()  # Field name made lowercase.
+    findgings_datetime = models.IntegerField()  # Field name made lowercase.
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True )  # Field name made lowercase.
+    findings = models.TextField()  # Field name made lowercase.
+    symtoms = models.TextField()  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deleted_reason = models.CharField( max_length=100)  # Field name made lowercase.
+    kco = models.CharField(blank=True, null=True)
+    advice = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'tblpatient_findingsandsymtoms'
 
-
-class TblpatientLabinvestigations(models.Model):
-    patient_labinvestigation_id = models.AutoField(db_column='Patient_LabInvestigation_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    patient_status = models.IntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id')  # Field name made lowercase.
-    prescription_id = models.IntegerField(db_column='Prescription_Id')  # Field name made lowercase.
-    labinvestigation_datetime = models.IntegerField(db_column='LabInvestigation_DateTime')  # Field name made lowercase.
-    labinvestigation_category = models.IntegerField(db_column='LabInvestigation_Category')  # Field name made lowercase.
-    patient_labtestid = models.IntegerField(db_column='Patient_LabTestId')  # Field name made lowercase.
-    patient_labtestreport = models.CharField(db_column='Patient_LabTestReport', max_length=100)  # Field name made lowercase.
-    patient_labtestsample = models.IntegerField(db_column='Patient_LabTestSample')  # Field name made lowercase.
-    patient_labtestreport_check = models.IntegerField(db_column='Patient_LabTestReport_Check')  # Field name made lowercase.
-    lattest_extrafield1 = models.IntegerField(db_column='LatTest_ExtraField1', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    deletedon = models.IntegerField(db_column='DeletedOn', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.CharField(db_column='Deleted_Reason', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted')  # Field name made lowercase.
+##############################################Tblprescriptions
+class Tblprescriptions(models.Model):
+    prescriptions_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_status = models.IntegerField()  # Field name made lowercase.
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    prescription_datetime = models.IntegerField()  # Field name made lowercase.
+    prescription_details = models.TextField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deleted_reason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        db_table = 'tblprescriptions'
+        
+##############################################TblpatientLabinvestigations
+class TblpatientLabinvestigations(models.Model):
+    patient_labinvestigation_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_status = models.IntegerField()  # Field name made lowercase.
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True )  # Field name made lowercase.
+    prescription_id = models.ForeignKey(Tblprescriptions, on_delete=models.SET_NULL, null=True ) # Field name made lowercase.
+    labinvestigation_datetime = models.IntegerField()  # Field name made lowercase.
+    labinvestigation_category = models.IntegerField()  # Field name made lowercase.
+    patient_labtestid = models.ForeignKey(Tbllabinvestigations, on_delete=models.SET_NULL, null=True)
+    patient_labtestreport = models.CharField( max_length=100)  # Field name made lowercase.
+    patient_labtestsample = models.IntegerField()  # Field name made lowercase.
+    patient_labtestreport_check = models.IntegerField()  # Field name made lowercase.
+    lattest_extrafield1 = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deletedon = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deleted_reason = models.CharField( max_length=100, blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField(default="0")  # Field name made lowercase.
+
+    class Meta:
         db_table = 'tblpatient_labinvestigations'
 
-
+##################################################TblpatientMedications
 class TblpatientMedications(models.Model):
-    patient_medication_id = models.AutoField(db_column='Patient_Medication_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    patient_status = models.IntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id')  # Field name made lowercase.
-    prescription_id = models.IntegerField(db_column='Prescription_Id')  # Field name made lowercase.
-    medication_datetime = models.IntegerField(db_column='Medication_DateTime')  # Field name made lowercase.
-    medicine_id = models.IntegerField(db_column='Medicine_Id')  # Field name made lowercase.
-    medicine_form = models.CharField(db_column='Medicine_Form', max_length=5)  # Field name made lowercase.
-    medicine_name = models.CharField(db_column='Medicine_Name', max_length=100)  # Field name made lowercase.
-    medicine_duration = models.IntegerField(db_column='Medicine_Duration')  # Field name made lowercase.
-    medicine_doses = models.IntegerField(db_column='Medicine_Doses')  # Field name made lowercase.
-    medicine_dose_interval = models.CharField(db_column='Medicine_Dose_Interval', max_length=15)  # Field name made lowercase.
-    medicine_instruction_id = models.IntegerField(db_column='Medicine_Instruction_Id', blank=True, null=True)  # Field name made lowercase.
-    medicine_category = models.IntegerField(db_column='Medicine_Category', blank=True, null=True)  # Field name made lowercase.
-    medicine_extrafield1 = models.IntegerField(db_column='Medicine_ExtraField1', blank=True, null=True)  # Field name made lowercase.
-    medicine_extrafield2 = models.IntegerField(db_column='Medicine__ExtraField2', blank=True, null=True)  # Field name made lowercase. Field renamed because it contained more than one '_' in a row.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.CharField(db_column='Deleted_Reason', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    patient_medication_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients,on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_status = models.IntegerField()  # Field name made lowercase.
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    prescription_id = models.ForeignKey(Tblprescriptions, on_delete=models.SET_NULL, null=True) # Field name made lowercase.
+    medication_datetime = models.IntegerField()  # Field name made lowercase.
+    medicine_id = models.IntegerField()  # Field name made lowercase.
+    medicine_form = models.CharField( max_length=5)  # Field name made lowercase.
+    medicine_name = models.CharField( max_length=100)  # Field name made lowercase.
+    medicine_duration = models.IntegerField()  # Field name made lowercase.
+    medicine_doses = models.IntegerField()  # Field name made lowercase.
+    medicine_dose_interval = models.CharField( max_length=15)  # Field name made lowercase.
+    medicine_instruction_id = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    medicine_category = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    medicine_extrafield1 = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    medicine_extrafield2 = models.IntegerField( blank=True, null=True)  # Field name made lowercase. Field renamed because it contained more than one '_' in a row.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deleted_reason = models.CharField(max_length=100, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'tblpatient_medications'
 
-
+#######################################TblpatientPayments
 class TblpatientPayments(models.Model):
-    patient_payment_id = models.AutoField(db_column='Patient_Payment_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    patient_status = models.IntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    payment_mode = models.IntegerField(db_column='Payment_Mode')  # Field name made lowercase.
-    payment_amount = models.IntegerField(db_column='Payment_Amount')  # Field name made lowercase.
-    payment_transaction_no = models.CharField(db_column='Payment_Transaction_No', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.IntegerField(db_column='Deleted_Reason', blank=True, null=True)  # Field name made lowercase.
+    patient_payment_id = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_status = models.IntegerField()  # Field name made lowercase.
+    payment_mode = models.IntegerField()  # Field name made lowercase.
+    payment_amount = models.IntegerField()  # Field name made lowercase.
+    payment_transaction_no = models.CharField( max_length=100, blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    deleted_reason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'tblpatient_payments'
 
-
+############################################Tblpatientbiometrics
 class Tblpatientbiometrics(models.Model):
-    patient_biometricid = models.AutoField(db_column='Patient_Biometricid', primary_key=True)  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id', blank=True, null=True)  # Field name made lowercase.
-    operator_id = models.IntegerField(db_column='Operator_Id', blank=True, null=True)  # Field name made lowercase.
-    patient_status = models.IntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    patient_height = models.FloatField(db_column='Patient_Height', blank=True, null=True)  # Field name made lowercase.
-    patient_weight = models.FloatField(db_column='Patient_Weight', blank=True, null=True)  # Field name made lowercase.
-    patient_bmi = models.FloatField(db_column='Patient_BMI', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
+    patient_biometricid = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    operator_id = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    patient_status = models.IntegerField()  # Field name made lowercase.
+    patient_height = models.FloatField( blank=True, null=True)  # Field name made lowercase.
+    patient_weight = models.FloatField( blank=True, null=True)  # Field name made lowercase.
+    patient_bmi = models.FloatField( blank=True, null=True)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
         db_table = 'tblpatientbiometrics'
 
 
-class Tblpatients(models.Model):
-    patient_id = models.AutoField(db_column='Patient_Id', primary_key=True)  # Field name made lowercase.
-    patient_mobileno = models.CharField(db_column='Patient_MobileNo', max_length=10)  # Field name made lowercase.
-    patient_firstname = models.CharField(db_column='Patient_Firstname', max_length=50)  # Field name made lowercase.
-    patient_fateherhusbandname = models.CharField(db_column='Patient_FateherHusbandName', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    patient_lastname = models.CharField(db_column='Patient_Lastname', max_length=50)  # Field name made lowercase.
-    patient_gender = models.SmallIntegerField(db_column='Patient_Gender')  # Field name made lowercase.
-    patient_dateofbirth = models.BigIntegerField(db_column='Patient_DateOfBirth', blank=True, null=True)  # Field name made lowercase.
-    patient_maritalstatus = models.IntegerField(db_column='Patient_MaritalStatus')  # Field name made lowercase.
-    patient_aadharnumber = models.CharField(db_column='Patient_AadharNumber', max_length=16, blank=True, null=True)  # Field name made lowercase.
-    patient_universalhealthid = models.IntegerField(db_column='Patient_UniversalHealthId')  # Field name made lowercase.
-    patient_bloodgroup = models.IntegerField(db_column='Patient_BloodGroup')  # Field name made lowercase.
-    patient_level = models.CharField(db_column='Patient_Level', max_length=1)  # Field name made lowercase.
-    patient_emergencycontact = models.CharField(db_column='Patient_EmergencyContact', max_length=10)  # Field name made lowercase.
-    patient_address = models.CharField(db_column='Patient_Address', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    patient_cityid = models.IntegerField(db_column='Patient_CityId', blank=True, null=True)  # Field name made lowercase.
-    patient_stateid = models.IntegerField(db_column='Patient_StateId', blank=True, null=True)  # Field name made lowercase.
-    patient_countryid = models.IntegerField(db_column='Patient_CountryId')  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.BigIntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    istestpatient = models.IntegerField(db_column='IsTestPatient')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tblpatients'
-
-
+###########################################Tblpatientvitals
 class Tblpatientvitals(models.Model):
-    patient_biometricid = models.AutoField(db_column='Patient_Biometricid', primary_key=True)  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id', blank=True, null=True)  # Field name made lowercase.
-    operator_id = models.IntegerField(db_column='Operator_Id', blank=True, null=True)  # Field name made lowercase.
-    patient_status = models.IntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    patient_heartratepluse = models.FloatField(db_column='Patient_HeartRatePluse')  # Field name made lowercase.
-    patient_bpsystolic = models.FloatField(db_column='Patient_BPSystolic')  # Field name made lowercase.
-    patient_bpdistolic = models.FloatField(db_column='Patient_BPDistolic')  # Field name made lowercase.
-    patient_painscale = models.FloatField(db_column='Patient_PainScale')  # Field name made lowercase.
-    patient_respiratoryrate = models.FloatField(db_column='Patient_RespiratoryRate')  # Field name made lowercase.
-    patient_temparature = models.FloatField(db_column='Patient_Temparature')  # Field name made lowercase.
-    patient_chest = models.CharField(db_column='Patient_Chest', max_length=100)  # Field name made lowercase.
-    patient_ecg = models.CharField(db_column='Patient_ECG', max_length=100)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
+    patient_biometricid = models.AutoField( primary_key=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True)  # Field name made lowercase.
+    operator_id = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    patient_status = models.IntegerField()  # Field name made lowercase.
+    patient_heartratepluse = models.FloatField()  # Field name made lowercase.
+    patient_bpsystolic = models.FloatField()  # Field name made lowercase.
+    patient_bpdistolic = models.FloatField()  # Field name made lowercase.
+    patient_painscale = models.FloatField()  # Field name made lowercase.
+    patient_respiratoryrate = models.FloatField()  # Field name made lowercase.
+    patient_temparature = models.FloatField()  # Field name made lowercase.
+    patient_chest = models.CharField( max_length=100)  # Field name made lowercase.
+    patient_ecg = models.CharField( max_length=100)  # Field name made lowercase.
+    createdby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    createdon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedon = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    lastmodifiedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
+    deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    weight = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    
+    def __str__(self):
+        return self.patient_biometricid
 
     class Meta:
-        managed = False
         db_table = 'tblpatientvitals'
 
 
-class Tblprescriptions(models.Model):
-    prescriptions_id = models.AutoField(db_column='Prescriptions_Id', primary_key=True)  # Field name made lowercase.
-    doctor_id = models.IntegerField(db_column='Doctor_Id')  # Field name made lowercase.
-    patient_id = models.IntegerField(db_column='Patient_Id')  # Field name made lowercase.
-    patient_status = models.IntegerField(db_column='Patient_Status')  # Field name made lowercase.
-    consultation_id = models.IntegerField(db_column='Consultation_Id')  # Field name made lowercase.
-    prescription_datetime = models.IntegerField(db_column='Prescription_DateTime')  # Field name made lowercase.
-    prescription_details = models.TextField(db_column='Prescription_Details', blank=True, null=True)  # Field name made lowercase.
-    createdon = models.IntegerField(db_column='CreatedOn', blank=True, null=True)  # Field name made lowercase.
-    createdby = models.IntegerField(db_column='CreatedBy', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedon = models.IntegerField(db_column='LastModifiedOn', blank=True, null=True)  # Field name made lowercase.
-    lastmodifiedby = models.IntegerField(db_column='LastModifiedBy', blank=True, null=True)  # Field name made lowercase.
-    isdeleted = models.IntegerField(db_column='IsDeleted', blank=True, null=True)  # Field name made lowercase.
-    deletedby = models.IntegerField(db_column='DeletedBy', blank=True, null=True)  # Field name made lowercase.
-    deleted_reason = models.IntegerField(db_column='Deleted_Reason', blank=True, null=True)  # Field name made lowercase.
+
+class ConsultationFee(models.Model):
+    consultation_fee_id = models.AutoField(primary_key=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE,null=True,related_name="consultaion_fee_doctor_id")
+    location_id = models.ForeignKey(Tbldoctorlocations, on_delete=models.CASCADE,null=True,related_name="consultaion_fee_location_id")
+    mode_type = models.IntegerField()
+    first_visit_fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    second_visit_fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    created_on = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(auto_now=True, null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
 
     class Meta:
-        managed = False
-        db_table = 'tblprescriptions'
+        managed = True
+        db_table = 'consultation_fee'
+
+
+class MedicalServicesFee(models.Model):
+    medical_service_fee_id = models.AutoField(primary_key=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE,null=True,related_name="service_fee_doctor_id")
+    location_id = models.ForeignKey(Tbldoctorlocations, on_delete=models.CASCADE,null=True,related_name="service_fee_location_id")
+    service = models.IntegerField()
+    charges = models.IntegerField()
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        managed = True
+        db_table = 'medical_services_fee'
+
+
+
+class tblChatScripts(models.Model):
+    Script_id = models.AutoField(primary_key=True)
+    Script_Code = models.IntegerField(null=True, blank=True)
+    Location_token = models.ForeignKey(Tbldoctorlocations,on_delete=models.CASCADE,null=True,to_field="location_token")
+    Script_Type = models.IntegerField(null=True, blank=True)
+    Script_Language = models.CharField( max_length=2, blank=True, null=True) 
+    Script_Text = models.TextField(blank=True, null=True)
+    S1 = models.IntegerField(null=True, blank=True)
+    S2 = models.IntegerField(null=True, blank=True)
+
+    created_on = models.IntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.IntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        managed = True
+        db_table = 'tblChatScripts'
+
+class tblScriptOptions(models.Model):
+    Script_Option_Id = models.AutoField(primary_key=True)
+    Location_token = models.ForeignKey(Tbldoctorlocations,on_delete=models.CASCADE,null=True,to_field="location_token")
+    Script_Code = models.ForeignKey(tblChatScripts, on_delete=models.CASCADE,null=True,to_field="Script_id" )
+    Script_Option_Type = models.IntegerField(null=True, blank=True)
+    Script_Option_Langauge = models.CharField( max_length=2, blank=True, null=True) 
+    Script_Option_Text = models.TextField(blank=True, null=True)
+    Script_Option_Value = models.CharField( max_length=10, blank=True, null=True) 
+    Script_Option_Action_Script_Id = models.IntegerField(null=True, blank=True)
+
+    created_on = models.IntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.IntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        managed = True
+        db_table = 'tblScriptOptions'
+
+
+class tblUserActions(models.Model):
+    Action_Id = models.AutoField(primary_key=True)
+    Location_token = models.ForeignKey(Tbldoctorlocations,on_delete=models.CASCADE,null=True,to_field="location_token")
+    User_Id = models.IntegerField(null=True, blank=True)
+    Script_Code = models.ForeignKey(tblChatScripts, on_delete=models.CASCADE,null=True,to_field="Script_id" )
+    Script_Option_Id = models.IntegerField(null=True, blank=True)
+    Script_Option_Langauge = models.CharField( max_length=2, blank=True, null=True) 
+    Script_Action_Input = models.CharField( max_length=100, blank=True, null=True) 
+    Script_Option_Value = models.CharField( max_length=100, blank=True, null=True) 
+
+    created_on = models.IntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.IntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+    class Meta:
+        managed = True
+        db_table = 'tblUserActions'
