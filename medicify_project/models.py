@@ -122,14 +122,7 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class Tbldatacodemaster(models.Model):
-    datacodeid = models.AutoField( primary_key=True)  # Field name made lowercase.
-    datacodename = models.CharField( max_length=256)  # Field name made lowercase.
-    datacodevalue = models.CharField( max_length=256)  # Field name made lowercase.
-    datacodedescription = models.TextField()  # Field name made lowercase.
 
-    class Meta:
-        db_table = 'tbldatacodemaster'
 
 ######################################Tbldoctors
 class Tbldoctors(models.Model):
@@ -157,9 +150,24 @@ class Tbldoctors(models.Model):
     deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     isactive = models.IntegerField()  # Field name made lowercase.
     doctor_login_token = models.CharField( max_length=32, blank=True, null=True) 
+    basic_education = models.CharField( max_length=255, blank=True, null=True) 
+    additional_education = models.CharField( max_length=255, blank=True, null=True) 
+    services_offered = models.TextField(blank=True, null=True) 
+    password= models.CharField(max_length=32, blank=True, null=True) 
 
     class Meta:
         db_table = 'tbldoctors'
+
+######################################Tbldatacodemaster
+class Tbldatacodemaster(models.Model):
+    datacodeid = models.AutoField( primary_key=True)  # Field name made lowercase.
+    datacodename = models.CharField( max_length=256)  # Field name made lowercase.
+    datacodevalue = models.CharField( max_length=256)  # Field name made lowercase.
+    datacodedescription = models.TextField()  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE,null=True,related_name="tbldatacodemaster_doctor_id")
+
+    class Meta:
+        db_table = 'tbldatacodemaster'
 
 
 #####################################################Tblpatients
@@ -188,6 +196,8 @@ class Tblpatients(models.Model):
     isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
     deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     istestpatient = models.IntegerField()  # Field name made lowercase.
+    follower = models.IntegerField(null=True,blank=True)
+    outstanding = models.IntegerField(null=True,blank=True)
 
     class Meta:
         db_table = 'tblpatients'
@@ -214,8 +224,9 @@ class Tblconsultations(models.Model):
     consultation_fees = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     referred_to_doctor = models.CharField( max_length=255, blank=True, null=True)
     referred_by_doctor = models.CharField( max_length=255, blank=True, null=True)
-
-
+    appointment_id = models.IntegerField( blank=True, null=True) 
+    consultation_status=models.IntegerField( blank=True, null=True)
+    
     class Meta:
         db_table = 'tblconsultations'
 
@@ -231,7 +242,7 @@ class TbldoctorMedicines(models.Model):
     medicine_dosages = models.CharField( max_length=100)  # Field name made lowercase.
     medicine_manufacture = models.CharField( max_length=100)  # Field name made lowercase.
     medicine_packsize = models.IntegerField()  # Field name made lowercase.
-    medicine_preservation = models.IntegerField()  # Field name made lowercase.
+    medicine_preservation = models.CharField( max_length=256)  # Field name made lowercase.
     medicine_minstock = models.IntegerField()  # Field name made lowercase.
     medicine_gst = models.IntegerField()  # Field name made lowercase.
     medicine_content_name = models.CharField(max_length=100)  # Field name made lowercase.
@@ -243,6 +254,7 @@ class TbldoctorMedicines(models.Model):
     isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
     deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     deletedreason = models.CharField( max_length=100, blank=True, null=True)  # Field name made lowercase.
+    price = models.IntegerField( blank=True, null=True)
 
     class Meta:
         db_table = 'tbldoctor_medicines'
@@ -331,6 +343,9 @@ class Tbldoctorlocations(models.Model):
     deletedreason = models.CharField( max_length=200, blank=True, null=True)  # Field name made lowercase.
     location_token = models.CharField(max_length=32,blank=True,null=True,unique=True)
     location_qr_url = models.CharField( max_length=255, blank=True, null=True)
+    services_offered_at = models.TextField(blank=True, null=True)
+    location_image = models.ImageField(upload_to='location_images/', null=True, blank=True)
+
     class Meta:
         db_table = 'tbldoctorlocations'
 
@@ -368,6 +383,8 @@ class TblpateintCharges(models.Model):
     isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
     deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     deleted_reason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    previous_outstanding = models.IntegerField(blank=True,null=True)
+    new_outstanding = models.IntegerField(blank=True,null=True)
 
     class Meta:
         db_table = 'tblpateint_charges'
@@ -444,7 +461,7 @@ class TblpatientLabinvestigations(models.Model):
     consultation_id = models.ForeignKey(Tblconsultations, on_delete=models.SET_NULL, null=True )  # Field name made lowercase.
     prescription_id = models.ForeignKey(Tblprescriptions, on_delete=models.SET_NULL, null=True ) # Field name made lowercase.
     labinvestigation_datetime = models.IntegerField()  # Field name made lowercase.
-    labinvestigation_category = models.IntegerField()  # Field name made lowercase.
+    labinvestigation_category =  models.CharField( max_length=50, blank=True, null=True) # Field name made lowercase.
     patient_labtestid = models.ForeignKey(Tbllabinvestigations, on_delete=models.SET_NULL, null=True)
     patient_labtestreport = models.CharField( max_length=100)  # Field name made lowercase.
     patient_labtestsample = models.IntegerField()  # Field name made lowercase.
@@ -475,7 +492,7 @@ class TblpatientMedications(models.Model):
     medicine_form = models.CharField( max_length=5)  # Field name made lowercase.
     medicine_name = models.CharField( max_length=100)  # Field name made lowercase.
     medicine_duration = models.IntegerField()  # Field name made lowercase.
-    medicine_doses = models.IntegerField()  # Field name made lowercase.
+    medicine_doses = models.TextField(blank=True, null=True)  # Field name made lowercase.
     medicine_dose_interval = models.CharField( max_length=15)  # Field name made lowercase.
     medicine_instruction_id = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     medicine_category = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
@@ -508,6 +525,8 @@ class TblpatientPayments(models.Model):
     isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
     deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     deleted_reason = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
+    previous_outstanding = models.IntegerField(blank=True,null=True)
+    new_outstanding = models.IntegerField(blank=True,null=True)
 
     class Meta:
         db_table = 'tblpatient_payments'
@@ -557,6 +576,9 @@ class Tblpatientvitals(models.Model):
     isdeleted = models.IntegerField( blank=True, null=True,default="0")  # Field name made lowercase.
     deletedby = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     weight = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    height = models.FloatField(blank=True, null=True)
+    bmi = models.FloatField(blank=True, null=True)
+    appointment_id = models.ForeignKey(Tbldoctorappointments, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
         return self.patient_biometricid
@@ -579,6 +601,9 @@ class ConsultationFee(models.Model):
     last_modified_by = models.IntegerField(null=True, blank=True)
     deleted_by = models.IntegerField(null=True, blank=True)
     is_deleted = models.IntegerField(default=0)
+    avg_time_per_patient = models.TextField(blank=True, null=True)
+    title = models.TextField(blank=True, null=True)
+    price = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -666,3 +691,604 @@ class tblUserActions(models.Model):
     class Meta:
         managed = True
         db_table = 'tblUserActions'
+
+
+#############################################
+                
+class Tbldoctorleave(models.Model):
+    doctor_leave_id = models.AutoField(primary_key=True, auto_created=True)  # Field name made lowercase.
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE,related_name="doctorleave_doctor_id")  # Foreign key to Tbldoctors
+    location_id = models.ForeignKey(Tbldoctorlocations, on_delete=models.CASCADE,related_name="doctorleave_location_id")  # Foreign key to Tbldoctorlocations
+    day = models.IntegerField()  # Field for day (int)
+    leave_date = models.BigIntegerField()  # Field for leave date (BigInt)
+    order = models.IntegerField()  # Field for order (int) order means 1-morning 2-afternoon and 3-evening
+    updated_date = models.BigIntegerField()  # Field for updated on (BigInt)
+    start_time = models.IntegerField()  # Field for start time (int)
+    end_time = models.IntegerField()  # Field for end time (int)
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        managed = True
+        db_table = 'tbldoctorleave'
+
+class tblUsers(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    location_id = models.ForeignKey(Tbldoctorlocations, on_delete=models.CASCADE, null=True, related_name="user_location_id")
+    user_name = models.CharField(max_length=100)
+    user_mobileno = models.CharField(max_length=10)
+    user_login_token = models.CharField(max_length=32,blank=True,null=True,unique=True)
+    user_role = models.IntegerField(null=True,blank=True)
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblUsers'
+
+
+
+class tblMasterDisease(models.Model):
+    disease_id = models.AutoField(primary_key=True)
+    disease_name = models.CharField(max_length=100)
+    disease_type = models.IntegerField(null=True,blank=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="masterdisease_doctor_id")
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblMasterDisease'
+
+class tblPatientDisease(models.Model):
+    patient_disease_id = models.AutoField(primary_key=True)
+    patient_id = models.ForeignKey(Tblpatients,on_delete=models.CASCADE, null=True, related_name="patientdisease_patient_id")
+    disease_id = models.ForeignKey(tblMasterDisease,on_delete=models.CASCADE, null=True, related_name="patientdisease_disease_id")
+    disease_entry_date = models.BigIntegerField()
+    disease_details = models.TextField(null=True,blank=True)
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblPatientDisease'
+
+class tblMasterAllergies(models.Model):
+    allergy_id = models.AutoField(primary_key=True)
+    allergy_name = models.CharField(max_length=100)
+    allergy_type = models.IntegerField(null=True,blank=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="masterallergy_doctor_id")
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0) 
+
+    class Meta:
+        db_table = 'tblMasterAllergies'
+
+
+class tblPatientAllergies(models.Model):
+    patient_allergy_id = models.AutoField(primary_key=True)
+    patient_id = models.ForeignKey(Tblpatients,on_delete=models.CASCADE, null=True, related_name="patientallergy_patient_id")
+    allergy_id = models.ForeignKey(tblMasterAllergies,on_delete=models.CASCADE, null=True, related_name="patientallergy_disease_id")
+    allergy_entry_date = models.BigIntegerField()
+    allergy_details = models.TextField(null=True,blank=True)
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblPatientAllergies'
+
+
+class tblPatientDoctorLink(models.Model):
+    patientdoctorlink_id = models.AutoField(primary_key=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="patientdoctorlink_doctor_id")
+    patient_id = models.ForeignKey(Tblpatients,on_delete=models.CASCADE, null=True, related_name="patientdoctorlink_patient_id")
+    link_approval = models.CharField(max_length=10, default='yes')
+    link_reject_reason = models.TextField(null=True,blank=True)
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+    remark = models.TextField(null=True,blank=True)
+
+    class Meta:
+        db_table = 'tblPatientDoctorLink'
+
+
+class PrescriptionSettings(models.Model):
+    prescriptionsettings_id = models.AutoField(primary_key=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="prescription_doctor_id")
+    location_id = models.ForeignKey(Tbldoctorlocations, on_delete=models.CASCADE, null=True, related_name="prescription_location_id")
+    paper_size = models.IntegerField(null=True, blank=True)
+    clinic_logo_alignment = models.IntegerField(null=True, blank=True)
+    header_type = models.IntegerField(null=True, blank=True)
+    header_image = models.ImageField(upload_to='header_images/', null=True, blank=True)
+    header_top_margin = models.FloatField(null=True, blank=True)
+    clinic_name = models.IntegerField(default=0)
+    clinic_address = models.IntegerField(default=0)
+    doctor_name = models.IntegerField(default=0)
+    doctor_degree = models.IntegerField(default=0)
+    doctor_speciality = models.IntegerField(default=0)
+    doctor_availability = models.IntegerField(default=0)
+    clinic_services = models.IntegerField(default=0)
+    clinic_logo = models.IntegerField(default=0)
+    clinic_mobile_number = models.IntegerField(default=0)
+    created_on = models.DateTimeField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.DateTimeField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'prescription_settings'
+
+
+class TblLead(models.Model):
+    lead_id = models.AutoField(primary_key=True)
+    franchise_id = models.IntegerField(default=0, null=True, blank=True)
+    lead_name = models.CharField(max_length=100, null=True, blank=True)
+    lead_email = models.CharField(max_length=50, null=True, blank=True)
+    lead_dob =  models.BigIntegerField(null=True, blank=True)
+    lead_contact_no = models.CharField(max_length=15, null=True, blank=True)
+    lead_source = models.IntegerField(null=True, blank=True)
+    lead_sub_source = models.TextField(null=True, blank=True)
+    lead_product = models.CharField(max_length=50, default="1", null=True, blank=True)
+    lead_status = models.IntegerField(default=1, null=True, blank=True)
+    lead_date_time_stamp = models.BigIntegerField(null=True, blank=True)
+    lead_by_id = models.IntegerField(null=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0, null=True, blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    lead_department = models.IntegerField(null=True, blank=True)
+    crm_ref_id = models.IntegerField(default=0, null=True, blank=True)
+    lead_stage = models.IntegerField(default=1, null=True, blank=True)
+    lead_country =  models.IntegerField(null=True, blank=True)
+    lead_state =  models.IntegerField(null=True, blank=True)
+    lead_city =  models.IntegerField(null=True, blank=True)
+    lead_handler_id = models.IntegerField(null=True, blank=True)
+    lead_handler_type = models.SmallIntegerField(default=1, null=True, blank=True)
+    lead_followup_old_status = models.SmallIntegerField(default=0, null=True, blank=True)
+    lead_month_year = models.CharField(max_length=50, null=True, blank=True)
+    app_id =  models.IntegerField(default=2, null=True, blank=True)
+    lead_added_on = models.BigIntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'tblLeads'
+
+
+class TblLeadFollowUp(models.Model):
+    follow_up_id = models.AutoField(primary_key=True)
+    lead_id = models.ForeignKey(TblLead, on_delete=models.CASCADE, null=True, related_name="LeadFollowUp_lead_id")
+    follow_up_date_time_stamp = models.BigIntegerField(null=True, blank=True)
+    follow_up_method = models.IntegerField(null=True, blank=True)
+    follow_up_details = models.TextField(null=True, blank=True)
+    follow_up_success_status = models.IntegerField(null=True, blank=True)
+    follow_up_activity = models.IntegerField(default=0, null=True, blank=True)
+    next_follow_up_date_time_stamp = models.BigIntegerField(null=True, blank=True)
+    next_follow_up_method = models.IntegerField(null=True, blank=True)
+    next_follow_up_action = models.TextField(null=True, blank=True)
+    follow_up_by = models.IntegerField(null=True, blank=True)
+    follow_up_user_id = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0, null=True, blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    by_department = models.IntegerField(default=0, null=True, blank=True)
+    app_id = models.IntegerField(default=2, null=True, blank=True)
+
+    class Meta:
+        db_table = 'tblLeadFollowUp'
+
+
+class TblCountries(models.Model):
+    id = models.AutoField(primary_key=True)
+    sortname = models.CharField(max_length=50, null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    phonecode = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'tblCountries'
+
+
+class TblStates(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    country = models.ForeignKey(TblCountries, on_delete=models.CASCADE, null=True, blank=True, related_name='states')
+
+    class Meta:
+        db_table = 'tblStates'
+
+
+class TblCities(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    state = models.ForeignKey(TblStates, on_delete=models.CASCADE, null=True, blank=True, related_name='cities')
+
+    class Meta:
+        db_table = 'tblCities'
+
+
+
+##############################Subscriptions Model
+class TblMasterSubscription(models.Model):
+    master_subscription_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    tax_one = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    tax_two = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    is_trial = models.BooleanField(null=True, blank=True)
+    total_days = models.IntegerField(null=True, blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblmaster_subscription'
+
+class TblDoctorSubscription(models.Model):
+    doctor_subscription_id = models.AutoField(primary_key=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="subscription_doctor_id")
+    master_subscription_id = models.ForeignKey(TblMasterSubscription, on_delete=models.CASCADE, null=True, related_name="doctorsubscription_mastersubscription_id")
+    subscription_start_on = models.BigIntegerField(null=True, blank=True)
+    subscription_end_on = models.BigIntegerField(null=True, blank=True)
+    subscription_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    subscription_tax1 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    subscription_tax2 = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    subscription_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    subscription_paid_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    subscription_discount_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    subscription_discount_type = models.IntegerField(null=True, blank=True)
+    subscription_promo_code = models.CharField(max_length=50, null=True, blank=True)
+    subscription_type = models.IntegerField(null=True, blank=True)
+    subscription_billing_name = models.CharField(max_length=100, null=True, blank=True)
+    subscription_billing_GstNo = models.CharField(max_length=50, null=True, blank=True)
+    subscription_billing_address = models.CharField(max_length=255, null=True, blank=True)
+    subscription_billing_pincode = models.CharField(max_length=20, null=True, blank=True)
+    subscription_billing_city = models.IntegerField(null=True, blank=True)
+    subscription_status = models.IntegerField(default=0,null=True,blank=True) #status 0 Active and status 1 unactive.
+    entry_operator_type = models.CharField(max_length=100, null=True, blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tbldoctor_subscription'
+
+
+class TblDoctorSubscriptionPromocodes(models.Model):
+    promocode_id = models.AutoField(primary_key=True)
+    promo_code = models.CharField(max_length=100, null=True, blank=True)
+    promo_code_activation_on = models.BigIntegerField(null=True, blank=True)
+    promo_code_valid_till = models.BigIntegerField(null=True, blank=True)
+    promo_code_value = models.IntegerField(null=True, blank=True)
+    promo_code_value_type = models.IntegerField(null=True, blank=True)
+    promo_code_status = models.IntegerField(null=True, blank=True)
+    entry_operator_id = models.CharField(max_length=100, null=True, blank=True)
+    entry_operator_type = models.CharField(max_length=100, null=True, blank=True)
+    promo_code_used_by = models.CharField(max_length=100, null=True, blank=True)
+    promo_code_used_on = models.BigIntegerField(null=True, blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tbl_doctor_subscription_promocodes'
+
+
+
+
+######################################################### FCM ###########################
+class CustomFCMDevice(models.Model):
+    device_id = models.AutoField(primary_key=True)
+    app_id = models.IntegerField(null=True, blank=True, default=0)
+    userId= models.ForeignKey(AuthUser, on_delete=models.SET_NULL, null=True, related_name='fcm_devices')
+    active = models.BooleanField(default=True)
+    created_on = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    username = models.CharField(max_length=250, null=True, blank=True)
+    type = models.CharField(max_length=20, null=True, blank=True)
+    version = models.CharField(max_length=250, null=True, blank=True)
+    browser = models.CharField(max_length=250, null=True, blank=True)
+    registration_id = models.CharField(max_length=255, null=True, blank=True)
+    # Add other custom fields here if needed
+
+    def _str_(self):
+        return str(self.device_id)
+
+    class Meta:
+        db_table = "CustomFCMDevice"
+        
+        
+        
+        
+class NotificationCRM(models.Model):
+    notification_id = models.AutoField(primary_key=True)
+    userId = models.ForeignKey(AuthUser, on_delete=models.SET_NULL, null=True, related_name='admin_collection_notification')
+    fcm_token = models.CharField(max_length=255, null=True, blank=True)
+    notification_icon = models.FileField(blank=True, null=True, upload_to='notification/admin_collection_notification_icon/', max_length=2000)
+    notification_image = models.FileField(blank=True, null=True, upload_to='notification/admin_collection_notification_image/', max_length=2000)
+    notification_title = models.CharField(max_length=255, null=True, blank=True)
+    notification_body = models.TextField(null=True, blank=True)
+    notification_action = models.CharField(max_length=255, null=True, blank=True)
+    notification_send = models.DateTimeField(null=True)
+    notification_delivered = models.DateTimeField(null=True)
+    notification_read = models.DateTimeField(null=True)
+    notification_status = models.CharField(max_length=255, null=True, blank=True)
+    notification_category = models.CharField(max_length=255, null=True, blank=True)
+    created_on = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    created_by = models.ForeignKey(AuthUser, on_delete=models.SET_NULL, null=True, related_name='admin_collection_notifications_created_by')
+    last_modified_on = models.DateTimeField(auto_now=True)
+    last_modified_by = models.ForeignKey(AuthUser, on_delete=models.SET_NULL, null=True, related_name='admin_collection_notifications_last_modified_by')
+    is_deleted = models.BooleanField(default=False)
+    deleted_by = models.ForeignKey(AuthUser, on_delete=models.SET_NULL, null=True, related_name='admin_collection_notifications_deleted_by')
+    delete_reason = models.CharField(max_length=150, null=True, blank=True)
+
+    def _str_(self):
+        return str(self.notification_id)
+    
+    class Meta:
+        db_table = "NotificationCRM"
+
+
+class tblPharmacist(models.Model):
+    pharmacist_id = models.AutoField(primary_key=True)
+    shop_name = models.CharField(max_length=100,null=True,blank=True)
+    shop_address = models.CharField(max_length=255,null=True,blank=True)
+    shop_contact_number = models.CharField(max_length=15,null=True,blank=True)
+    shop_owner_name = models.CharField(max_length=100,null=True,blank=True)
+    shop_owner_number = models.CharField(max_length=15,null=True,blank=True)
+    pharmacist_username = models.CharField(max_length=50,null=True,blank=True)
+    pharmacist_password = models.CharField(max_length=128,null=True,blank=True)
+    pharmacist_token = models.CharField(max_length=32, blank=True, null=True)
+    pharmacist_type = models.IntegerField(null=True,blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "tblPharmacist"
+
+
+class tblDoctorPharmacistlink(models.Model):
+    doctorpharmacist_id = models.AutoField(primary_key=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="doctorpharmacist_doctor_id")
+    location_id = models.ForeignKey(Tbldoctorlocations, on_delete=models.CASCADE, null=True, related_name="doctorpharmacist_location_id")
+    pharmacist_id = models.ForeignKey(tblPharmacist, on_delete=models.CASCADE, null=True, related_name="doctorpharmacist_pharmacist_id")
+    status = models.IntegerField(default=0) # 0 means active or currently assosciated.
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "tblDoctorPharmacistlink"
+
+
+class tblPrescribePharmacist(models.Model):
+    prescribepharmacist_id = models.AutoField(primary_key=True)
+    prescription_id = models.ForeignKey(Tblprescriptions, on_delete=models.CASCADE, null=True, related_name="prescriptionpharmacist_prescription_id")
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="prescriptionpharmacist_doctor_id")
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.CASCADE, null=True, related_name="prescriptionpharmacist_patient_id")
+    pharmacist_id = models.ForeignKey(tblPharmacist, on_delete=models.CASCADE, null=True, related_name="prescriptionpharmacist_pharmacist_id")
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+    pharma_status = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "tblPrescribePharmacist"
+
+
+
+class tblLaboratory(models.Model):
+    laboratory_id = models.AutoField(primary_key=True)
+    laboratory_name = models.CharField(max_length=100,null=True,blank=True)
+    laboratory_address = models.CharField(max_length=255,null=True,blank=True)
+    laboratory_contact_number = models.CharField(max_length=15,null=True,blank=True)
+    laboratory_owner_name = models.CharField(max_length=100,null=True,blank=True)
+    laboratory_owner_number = models.CharField(max_length=15,null=True,blank=True)
+    laboratory_username = models.CharField(max_length=50,null=True,blank=True)
+    laboratory_password = models.CharField(max_length=128,null=True,blank=True)
+    laboratory_token = models.CharField(max_length=32, blank=True, null=True)
+    laboratory_type = models.IntegerField(null=True,blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "tblLaboratory"
+
+
+class tblDoctorLaboratorylink(models.Model):
+    doctorlaboratory_id = models.AutoField(primary_key=True)
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="doctorlaboratory_doctor_id")
+    location_id = models.ForeignKey(Tbldoctorlocations, on_delete=models.CASCADE, null=True, related_name="doctorlaboratory_location_id")
+    laboratory_id = models.ForeignKey(tblLaboratory, on_delete=models.CASCADE, null=True, related_name="doctorlaboratory_laboratory_id")
+    status = models.IntegerField(default=0) # 0 means active or currently assosciated.
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "tblDoctorLaboratorylink"
+
+
+class tblPrescribeLaboratory(models.Model):
+    prescribelaboratory_id = models.AutoField(primary_key=True)
+    prescription_id = models.ForeignKey(Tblprescriptions, on_delete=models.CASCADE, null=True, related_name="prescriptionlaboratory_prescription_id")
+    doctor_id = models.ForeignKey(Tbldoctors, on_delete=models.CASCADE, null=True, related_name="prescriptionlaboratory_doctor_id")
+    patient_id = models.ForeignKey(Tblpatients, on_delete=models.CASCADE, null=True, related_name="prescriptionlaboratory_patient_id")
+    laboratory_id = models.ForeignKey(tblLaboratory, on_delete=models.CASCADE, null=True, related_name="prescriptionlaboratory_laboratory_id")
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+    laboratory_status = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "tblPrescribeLaboratory"
+
+
+################################Deal related Models##########################
+
+class tblDealsCategories(models.Model):
+    DealCategory_id = models.AutoField(primary_key=True)
+    CategoryName = models.CharField(max_length=255,null=True,blank=True)
+    CategoryMedicalNonMedical = models.IntegerField(null=True,blank=True)
+    CategoryKewords = models.TextField(null=True,blank=True)
+    CategoryStatus = models.IntegerField(default=1)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "tblDealsCategories"
+
+
+class tblDeals(models.Model):
+    Deal_id = models.AutoField(primary_key=True)
+    CompanyName = models.CharField(max_length=255,null=True,blank=True)
+    DealOwnerMobileNo = models.CharField(max_length=15,null=True,blank=True)
+    DealOwnerPersonName = models.CharField(max_length=255,null=True,blank=True)
+    DealMedicalNonMedical = models.IntegerField(default=1)
+    DealCategory_id = models.ForeignKey(tblDealsCategories, on_delete=models.CASCADE, null=True, related_name="tblDeal_DealCategory_id")
+    DealTitle = models.CharField(max_length=255,null=True,blank=True)
+    DealKeywords = models.TextField(null=True,blank=True)
+    DealContentType = models.IntegerField(default=1)
+    DealContentURL_forWeb = models.CharField(max_length=255,null=True,blank=True)
+    DealContentURL_forMobile = models.CharField(max_length=255,null=True,blank=True)
+    DealWebsiteURL = models.CharField(max_length=255,null=True,blank=True)
+    Show_to_Doctor = models.IntegerField(default=1) # 1=yes ,0=no
+    Show_to_Pharmacy = models.IntegerField(default=1)
+    Show_to_Labs = models.IntegerField(default=1)
+    DealStatus = models.IntegerField(default=1)
+    DealViews = models.IntegerField(default=0)
+    DealLikes = models.IntegerField(default=0)
+    DealInterests = models.IntegerField(default=0)
+    DealClicks = models.IntegerField(default=0)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblDeals'
+
+
+class tblDealPublish(models.Model):
+    DealPublish_id = models.AutoField(primary_key=True)
+    Deal_id = models.ForeignKey(tblDeals, on_delete=models.CASCADE, null=True, related_name="tblDealPublish_Deal_id")
+    PublishedOn = models.BigIntegerField(null=True,blank=True)
+    ExpiryOn = models.BigIntegerField(null=True,blank=True)
+    PaymentDetails = models.CharField(max_length=255,null=True,blank=True)
+    DealStatus = models.IntegerField(default=1)
+    DeleteReason = models.CharField(max_length=255,null=True,blank=True)
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblDealPublish'
+
+
+class tblDealActionRecorder(models.Model):
+    DealAction_id = models.AutoField(primary_key=True)
+    DealActionType = models.IntegerField()  #'0':View 
+    DealActionDateTime = models.BigIntegerField(null=True,blank=True)
+    DealPublish_id = models.ForeignKey(tblDealPublish, on_delete=models.CASCADE, null=True, related_name="tblDealActionRecorder_DealPublish_id")
+    DealActionUser_id = models.IntegerField(null=True,blank=True) # User id  will be doctorid or pharma id or laboratory id depending which user seen the deal.
+    DealActionUser_type = models.IntegerField(null=True,blank=True) #User_type means doctor or pharma or laboratory
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+    DealLike = models.IntegerField(default=0 ,null=True,blank=True)
+    DealInterest = models.IntegerField(default=0,null=True,blank=True)
+    DealShare = models.IntegerField(default=0,null=True,blank=True)
+
+    class Meta:
+        db_table = 'tblDealActionRecorder'
+
+class tblDealCategoryLink(models.Model):
+    DealCategorylink_id = models.AutoField(primary_key=True)
+    DealCategory_id = models.ForeignKey(tblDealsCategories, on_delete=models.CASCADE, null=True, related_name="tblDealCategoryLink_DealCategory_id")
+    DealPublish_id = models.ForeignKey(tblDealPublish, on_delete=models.CASCADE, null=True, related_name="tblDealCategoryLink_DealPublish_id")
+    Deal_id = models.ForeignKey(tblDeals, on_delete=models.CASCADE, null=True, related_name="tblDealCategoryLink_Deal_id")
+    created_on = models.BigIntegerField(null=True, blank=True)
+    created_by = models.IntegerField(null=True, blank=True)
+    last_modified_on = models.BigIntegerField(null=True, blank=True)
+    last_modified_by = models.IntegerField(null=True, blank=True)
+    deleted_by = models.IntegerField(null=True, blank=True)
+    is_deleted = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'tblDealCategoryLink'
+
+
+
+
+
+
+
+

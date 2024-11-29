@@ -125,20 +125,13 @@ class TblpatientsSerializer(serializers.ModelSerializer):
 class TblpatientPaymentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = TblpatientPayments
-        fields = ['doctor_id', 'patient_id', 'patient_status', 'payment_mode', 'payment_amount', 'payment_transaction_no','isdeleted']
+        fields = '__all__'
 
 ######################### Patient ############################   
 class TblPatientsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tblpatients
-        fields = [
-            'patient_mobileno', 'patient_firstname', 'patient_lastname',
-            'patient_fateherhusbandname', 'patient_gender', 'patient_dateofbirth',
-            'patient_maritalstatus', 'patient_aadharnumber', 'patient_universalhealthid',
-            'patient_bloodgroup', 'patient_level', 'patient_emergencycontact',
-            'patient_address', 'patient_cityid', 'patient_stateid', 'patient_countryid',
-            'isdeleted','istestpatient',
-        ]
+        fields = '__all__'
 
 ######################### Patient Findingsandsymtoms ############################   
 class TblpatientFindingsandsymtomsSerializer(serializers.ModelSerializer):
@@ -155,6 +148,7 @@ class TblpatientFindingsandsymtomsSerializer(serializers.ModelSerializer):
             'kco',
             'advice',
             'isdeleted',
+            'patient_findings_id',
         ]
 
 ######################### Patient Complaints ############################   
@@ -209,4 +203,218 @@ class tblUserActionsSerializer(serializers.ModelSerializer):
         model = tblUserActions
         fields = '__all__'
 
+
+##########################Doctor Leave########################
+class TbldoctorleaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tbldoctorleave
+        fields = '__all__'
+
+class PatientMedicationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblpatientMedications
+        fields = '__all__'
+
+class TblPrescriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tblprescriptions
+        fields = '__all__'
+
+class TblUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblUsers
+        fields = '__all__'
+
+
+class TblMasterDiseaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblMasterDisease
+        fields = '__all__'
+
+
+class TblPatientDiseaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblPatientDisease
+        fields = '__all__'
+    
+
+class TblMasterAllergySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblMasterAllergies
+        fields = '__all__'
+
+
+class TblPatientAllergySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblPatientAllergies
+        fields = '__all__'
+
+class TblPatientDoctorLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblPatientDoctorLink
+        fields = '__all__'
         
+
+class PrescriptionSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrescriptionSettings
+        fields = '__all__'  # Serialize all fields
+
+class TblLeadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblLead
+        fields = '__all__'  # Serialize all fields
+
+class TblLeadFollowUpSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblLeadFollowUp
+        fields = '__all__'  # Serialize all fields
+
+
+
+############################Serializers for Countries,States,Cities
+
+# Simple Serializers
+class TblCountriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblCountries
+        fields = '__all__'
+
+class TblStatesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblStates
+        fields = '__all__'
+
+class TblCitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblCities
+        fields = '__all__'
+
+# Nested Serializers
+class NestedTblStatesSerializer(serializers.ModelSerializer):
+    country = TblCountriesSerializer()
+
+    class Meta:
+        model = TblStates
+        fields = '__all__'
+
+class NestedTblCitiesSerializer(serializers.ModelSerializer):
+    state = NestedTblStatesSerializer()
+
+    class Meta:
+        model = TblCities
+        fields = '__all__'
+
+
+
+
+###############################Subscriptions Models Serializer
+class TblMasterSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblMasterSubscription
+        fields = '__all__'
+
+class TblDoctorSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblDoctorSubscription
+        fields = '__all__'
+
+class TblDoctorSubscriptionPromocodesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblDoctorSubscriptionPromocodes
+        fields = '__all__'
+
+
+
+##########################Notifications
+
+class NotificationCRMSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NotificationCRM
+        fields = '__all__'
+        
+
+class CustomFCMDeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomFCMDevice
+        fields = '__all__'
+
+
+    def validate(self, data):
+        user_id = data.get('userId')
+        registration_id = data.get('registration_id')
+        app_id=data.get('app_id')
+        
+        if CustomFCMDevice.objects.filter(userId=user_id, registration_id=registration_id,app_id=app_id).exists():
+            raise serializers.ValidationError("This user and token combination already exists.")
+        
+        return data
+
+
+##################Pharmacist
+class tblPharmacistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblPharmacist
+        fields = '__all__'
+
+class tblDoctorPharmacistlinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblDoctorPharmacistlink
+        fields = '__all__'
+
+class tblPrescribePharmacistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblPrescribePharmacist
+        fields = '__all__'
+        
+    
+
+##################Laboratory
+class tblLaboratorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblLaboratory
+        fields = '__all__'
+
+class tblDoctorLaboratorylinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblDoctorLaboratorylink
+        fields = '__all__'
+
+class tblPrescribeLaboratorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblPrescribeLaboratory
+        fields = '__all__'
+
+
+#####################For Deal Module
+
+# Serializer for tblDealsCategories
+class TblDealsCategoriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblDealsCategories
+        fields = '__all__'
+
+# Serializer for tblDeals
+class TblDealsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblDeals
+        fields = '__all__'
+
+# Serializer for tblDealPublish
+class TblDealPublishSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblDealPublish
+        fields = '__all__'
+
+# Serializer for tblDealActionRecorder
+class TblDealActionRecorderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblDealActionRecorder
+        fields = '__all__'
+
+
+# Serializer for tblDealCategoryLink
+class TblDealCategoryLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tblDealCategoryLink
+        fields = '__all__'

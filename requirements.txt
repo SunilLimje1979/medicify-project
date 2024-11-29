@@ -61,7 +61,7 @@ Kivy-Garden==0.1.5
 Mako==1.3.0
 MarkupSafe==2.1.3
 matplotlib-inline==0.1.6
-medicify_model @ file:///D:/Python/Appwelt/django/Hospital/all/Hospital/medicify_model/dist/medicify_model-0.1.tar.gz#sha256=aecbc1b186be4eb70330c53c271b233b3cd43ff08d2b5bf4384311ce30b9bf57
+# medicify_model @ file:///D:/Python/Appwelt/django/Hospital/all/Hospital/medicify_model/dist/medicify_model-0.1.tar.gz#sha256=aecbc1b186be4eb70330c53c271b233b3cd43ff08d2b5bf4384311ce30b9bf57
 mistune==3.0.2
 mysql-connector-python==8.2.0
 mysqlclient==2.2.1
